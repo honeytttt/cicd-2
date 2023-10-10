@@ -40,10 +40,10 @@ pipeline{
                 }
             }
         }
-        post{
-            always{
-                echo "CICD Pipeline SUCCESS"
-            }
+    }    
+    post{
+        always{
+            echo "CICD Pipeline SUCCESS"
         }
     }
 }
