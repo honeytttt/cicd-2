@@ -1,0 +1,26 @@
+pipeline{
+    agent any
+    stages{
+        stage("Sonar Quality Check"){
+            agent {
+                docker{
+                    image 'openjdk:11'
+                }
+            }
+            steps{
+                Script{
+                    withSonarQubeEnv(credentialsId: 'sonarserver') {
+                        sh 'chmod +x gradlew'
+                        sh './gradlew sonarqube'
+                    }
+                }
+            }
+            
+        }
+    }
+    post{
+        always{
+            echo "CICD Pipeline SUCCESS"
+        }
+    }
+}
