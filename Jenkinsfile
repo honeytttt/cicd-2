@@ -1,8 +1,5 @@
 pipeline{
     agent any
-    environment{
-        VERSION = "${env.BUILD_ID}"
-    }
     stages{
         stage("Sonar Quality Check"){
             agent {
@@ -26,24 +23,7 @@ pipeline{
             }
             
         }
-         stage("docker build & docker push"){
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'docker_pass', variable: 'docker_password')]) {
-                        sh '''
-                            docker build -t 34.142.233.78:8083/cicd2-docker-nexus:${VERSION} .
-                            docker login -u admin -p $docker_password 34.142.233.78:8083
-                            docker push 34.142.233.78:8083/cicd2-docker-nexus:${VERSION}
-                            docker rmi 34.142.233.78:8083/cicd2-docker-nexus:${VERSION}
-                        '''
-                    }
-                }
-            }
-        }
+         
     }    
-    post{
-        always{
-            echo "CICD Pipeline SUCCESS"
-        }
-    }
+    
 }
